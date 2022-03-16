@@ -81,6 +81,7 @@ GEM
       tilt (~> 2.0)
     tilt (2.0.10)
     unicode-display_width (2.1.0)
+    webrick (1.7.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
 
@@ -90,11 +91,13 @@ PLATFORMS
 DEPENDENCIES
   capybara
   pg
+  rack
   rspec
   rubocop (~> 1.26)
   simplecov (~> 0.12.0)
   sinatra
   sinatra-contrib
+  webrick
 
 BUNDLED WITH
-   2.3.9
+   2.3.8
