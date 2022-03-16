@@ -1,11 +1,14 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-gem 'sinatra'
-gem 'sinatra-contrib'
-gem 'rspec'
+source 'https://rubygems.org'
+
 gem 'capybara'
-gem 'rubocop', '~> 1.26'
-gem 'simplecov', '~> 0.12.0'
 gem 'pg'
 gem 'rack'
+gem 'rspec'
+gem 'rubocop', '~> 1.26'
+gem 'simplecov', require: false
+gem 'simplecov-console', require: false
+gem 'sinatra'
+gem 'sinatra-contrib'
 gem 'webrick'
