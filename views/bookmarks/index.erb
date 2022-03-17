@@ -1,3 +1,50 @@
+<head>
+<title> Bookmark Manager </title>
+<style>
+	body {
+		color: #0a0a0a;
+		background-color: #f7f7f7;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+
+	h1 {
+		font-size: 2vw;
+    letter-spacing: 2px;
+	}
+
+	ul {
+		list-style-type: none;
+		width: 400px;
+		margin: 0;
+		padding: 0;
+	}
+
+	li a {
+		display: block;
+		color: black;
+		padding: 8px 16px;
+		text-decoration: none;
+		background-color: f1f1f1;
+		-webkit-transition: background-color 0.5s ease-out;
+    -moz-transition: background-color 0.5s ease-out;
+    -o-transition: background-color 0.5s ease-out;
+    -ms-transition: background-color 0.5s ease-out;
+    transition: background-color 0.5s ease-out;
+		-webkit-transition: color 0.5s ease-out;
+    -moz-transition: color 0.5s ease-out;
+    -o-transition: color 0.5s ease-out;
+    -ms-transition: color 0.5s ease-out;
+    transition: color 0.5s ease-out;
+	}
+
+	li a:hover {
+		background-color: #5e5e5e;
+		color: white;
+	}
+</style>
+</head>
+<body>
+
 <h1>Bookmarks</h1>
 <ul>
 <% @bookmarks.each do |bookmark| %>
@@ -9,3 +56,5 @@
 <form action='/add_bookmark'>
 <input type='submit' value='Add bookmark'>
 </form>
+
+</body>

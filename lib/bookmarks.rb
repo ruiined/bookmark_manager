@@ -13,7 +13,7 @@ class Bookmarks
 
     def add_bookmark(bookmark)
       connect
-      request("INSERT INTO bookmarks (url, title) VALUES ('#{bookmark.url}', '#{bookmark.title}')")
+      request("INSERT INTO bookmarks (url, title) VALUES($1, $2);", [bookmark.url, bookmark.title] )
     end
 
     private
@@ -24,6 +24,10 @@ class Bookmarks
 
     def request(command)
       @request = @connection.exec(command)
+    end
+
+    def safe_request(command)
+      @request = @connection.exec_params(command)
     end
 
     def process(bookmark_class)
