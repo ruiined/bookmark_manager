@@ -6,17 +6,29 @@ require 'pg'
 class Bookmarks
   class << self
     def all(bookmark_class = Bookmark)
+      @bookmark_class = bookmark_class
       connect
       request('SELECT * FROM bookmarks')
-      process(bookmark_class)
+      process
     end
 
-    def add_bookmark(bookmark)
+    def create(url, title)
       connect
-      request("INSERT INTO bookmarks (url, title) VALUES($1, $2);", [bookmark.url, bookmark.title] )
+      result = safe_request('INSERT INTO bookmarks (url, title) VALUES($1, $2) RETURNING id, title, url;',
+                            [url, title])
+      process_created(result)
+    end
+
+    def delete(id)
+      connect
+      safe_request('DELETE FROM bookmarks WHERE id = $1', [id])
     end
 
     private
+
+    def process_created(result)
+      @bookmark_class.new(result[0]['id'], result[0]['title'], result[0]['url'])
+    end
 
     def connect
       @connection = PG.connect(dbname: database_name)
@@ -26,18 +38,22 @@ class Bookmarks
       @request = @connection.exec(command)
     end
 
-    def safe_request(command)
-      @request = @connection.exec_params(command)
+    def safe_request(command, params)
+      @request = @connection.exec_params(command, params)
     end
 
-    def process(bookmark_class)
+    def process
       @request.map do |bookmark|
-        bookmark_class.new(bookmark['url'], bookmark['title'])
+        @bookmark_class.new(bookmark['id'], bookmark['url'], bookmark['title'])
       end
     end
 
     def database_name
-      ENV['RACK_ENV'] == 'test' ? 'bookmark_manager_test' : 'bookmark_manager'
+      testing? ? 'bookmark_manager_test' : 'bookmark_manager'
+    end
+
+    def testing?
+      ENV['RACK_ENV'] == 'test'
     end
   end
 end

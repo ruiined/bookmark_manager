@@ -3,7 +3,8 @@
 require 'bookmark'
 
 describe Bookmark do
-  subject(:bookmark) { described_class.new(url, title) }
+  subject(:bookmark) { described_class.new(id, url, title) }
+  let(:id) { 1 }
   let(:title) { 'Google' }
   let(:url) { 'http://google.com' }
 
@@ -13,5 +14,9 @@ describe Bookmark do
 
   it 'initializes the url' do
     expect(bookmark.url).to eq url
+  end
+
+  it 'initializes the id' do
+    expect(bookmark.id).to eq id
   end
 end
