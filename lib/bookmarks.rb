@@ -1,12 +1,19 @@
 # frozen_string_literal: true
 
+require_relative 'bookmark'
+
 require 'pg'
 class Bookmarks
   class << self
-    def all
+    def all(bookmark_class = Bookmark)
       connect
-      request
-      process
+      request('SELECT * FROM bookmarks')
+      process(bookmark_class)
+    end
+
+    def add_bookmark(bookmark)
+      connect
+      request("INSERT INTO bookmarks (url, title) VALUES ('#{bookmark.url}', '#{bookmark.title}')")
     end
 
     private
@@ -15,12 +22,14 @@ class Bookmarks
       @connection = PG.connect(dbname: database_name)
     end
 
-    def request
-      @request = @connection.exec('SELECT * FROM bookmarks')
+    def request(command)
+      @request = @connection.exec(command)
     end
 
-    def process
-      @request.map { |bookmark| bookmark['url'] }
+    def process(bookmark_class)
+      @request.map do |bookmark|
+        bookmark_class.new(bookmark['url'], bookmark['title'])
+      end
     end
 
     def database_name

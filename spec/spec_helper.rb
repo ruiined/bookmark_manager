@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 require 'simplecov'
 require 'simplecov-console'
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-    SimpleCov::Formatter::Console])
+                                                                 SimpleCov::Formatter::Console
+                                                               ])
 SimpleCov.start
 
 ENV['RACK_ENV'] = 'test'
@@ -13,11 +16,9 @@ require 'capybara'
 require 'capybara/rspec'
 require 'rspec'
 
-
 Capybara.app = BookmarkManager
 
 RSpec.configure do |config|
-
   config.before(:each) do
     connection = PG.connect(dbname: 'bookmark_manager_test')
     connection.exec('TRUNCATE bookmarks;')

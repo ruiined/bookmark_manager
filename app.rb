@@ -3,10 +3,13 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
 require './lib/bookmarks'
+require './lib/bookmark'
 
 class BookmarkManager < Sinatra::Base
   configure :development do
+    # :nocov:
     register Sinatra::Reloader
+    # :nocov:
   end
 
   get '/' do
@@ -23,9 +26,9 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/submit_bookmark' do
-    Bookmarks.add_bookmark(params[:url], params[:title])
+    Bookmarks.add_bookmark(Bookmark.new(params[:url], params[:title]))
     redirect('/bookmarks')
   end
-  
+
   run! if app_file == $PROGRAM_NAME
 end
