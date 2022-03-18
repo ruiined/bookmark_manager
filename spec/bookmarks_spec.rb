@@ -4,13 +4,12 @@ require 'bookmarks'
 
 describe Bookmarks do
   subject(:bookmarks) { described_class }
-  subject(:bookmarks_all) { described_class.all }
-  let(:bookmark) { Bookmark }
+  subject(:bookmarks_all) { described_class.all(bookmark_class) }
   let(:title) { 'Google' }
   let(:url) { 'http://google.com' }
   let(:id) { 13 }
-  # let(:bookmark_class) { double :bookmark_class, new: bookmark }
-  # let(:bookmark) { double :bookmark, id: id, title: title, url: url }
+  let(:bookmark_class) { double :bookmark_class, new: bookmark }
+  let(:bookmark) { double :bookmark, id: id, title: title, url: url }
 
   describe '.all' do
     it 'returns all bookmarks' do
@@ -27,9 +26,9 @@ describe Bookmarks do
 
   describe '.delete' do
     it 'deletes a bookmark' do
-      bookmark = bookmarks.create(url, title)
-      bookmarks.delete(bookmark.id)
-      expect(bookmarks.all).to be_empty
+      bookmarks.create(url, title)
+      bookmarks.delete(id)
+      expect(bookmarks_all).to be_empty
     end
   end
 end

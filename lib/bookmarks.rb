@@ -16,6 +16,7 @@ class Bookmarks
       connect
       result = safe_request('INSERT INTO bookmarks (url, title) VALUES($1, $2) RETURNING id, title, url;',
                             [url, title])
+      # testing? ? @bookmark_class.new(13, url, title) : process_created(result)
       process_created(result)
     end
 
